@@ -1,9 +1,9 @@
 resources = [
     {
-        "name": "Poter Henderson Library",
+        "name": "Porter Henderson Library",
         "category": "Academic & Study Resources",
         "tags": ["library", "study", "research", "books"],
-        "location": "Poter Henderson Library",
+        "location": "Porter Henderson Library",
         "hours": "Monday-Friday: 8:00 AM - 10:00 PM",
         "contact": "325-942-2222",
         "notes": "Library services, research assistance, study spaces"
@@ -137,16 +137,6 @@ resources = [
         "hours": "Available 24/7",
         "contact": "325-486-6345",
         "notes": "Provides immediate mental health crisis support to Angelo State students."
-    },
-
-    {
-        "name": "Emergency Services (911)",
-        "category": "Safety & Emergency Services",
-        "tags": ["911", "emergency", "ambulance", "fire", "police"],
-        "location": "United States emergency services",
-        "hours": "Available 24/7",
-        "contact": "911",
-        "notes": "Call for immediate life-threatening emergencies or urgent police, fire, or medical assistance."
-    },
+    }
 ]
    
