@@ -1,5 +1,7 @@
 from resources import resources
+
 SAFETY_CATEGORY = "Safety & Emergency Services"
+
 # List of categories for the resources
 CATEGORIES = [
     "Academic & Study Resources",
@@ -10,6 +12,10 @@ CATEGORIES = [
     "Recreation & Campus Life",
     "Safety & Emergency Services",
 ]
+
+# List of favorite resources
+FAVORITES = []
+
 # Show the menu
 def show_menu():
     print("\n===== Campus Compass =====")
@@ -42,6 +48,7 @@ def browse_all_resources():
         return
     for number, resource in enumerate(resources, start=1):
         show_resource(resource, number)
+    offer_to_save(resources)
 
 # Show the emergency help
 def show_emergency_help():
@@ -79,14 +86,18 @@ def find_resources_by_category():
     selected = CATEGORIES[choice - 1]
     print(f"\n=== Resources in the {selected} category ===")
 
-    count = 0
+    matches = []
     for resource in resources:
         if resource["category"] == selected:
-            count += 1
-            show_resource(resource, count)
+            matches.append(resource)
 
-    if count == 0:
-        print(f"No resources found in the {selected} category.")
+    if not matches:
+        print("No resources found in that category.")
+        return
+
+    for number, resource in enumerate(matches, start=1):
+        show_resource(resource, number)
+    offer_to_save(matches)
 
 # Search resources by keyword
 def search_resources_by_keyword():
@@ -98,22 +109,75 @@ def search_resources_by_keyword():
         print("Please enter a word to search for.")
         return
 
-    count = 0
+    matches = []
     for resource in resources:
         tags_text = " ".join(resource["tags"])
         search_text = (
             resource["name"] + " "
             + resource["category"] + " "
-            + tags_text.lower() + " "
+            + tags_text + " "
             + resource["notes"]
         ).lower()
-
         if keyword in search_text:
-            count += 1
-            show_resource(resource, count)
-    
-    if count == 0:
+            matches.append(resource)
+
+    if not matches:
         print(f"No resources found containing the word '{keyword}'.")
+        return
+
+    for number, resource in enumerate(matches, start=1):
+        show_resource(resource, number)
+    offer_to_save(matches)
+
+# View my favorite resources
+def add_to_favorites(resource):
+    """ Add a resource to the favorites list unless it is already there."""
+    if resource in FAVORITES:
+        print(f"{resource['name']} is already in your favorites.")
+    else:
+        FAVORITES.append(resource)
+        print(f"Added '{resource['name']}' to your favorites.")
+
+def offer_to_save(results):
+    """After showing results, let the user save one by its number."""
+    if not results:
+        return
+
+    choice = input("\nEnter a number to save to favorites, or press Enter to skip: ").strip()  
+    if choice == "":
+        return
+    if not choice.isdigit():
+        print("Please enter a number from the list.")
+        return
+    number = int(choice)
+    if number < 1 or number > len(results):
+        print(f"Please enter a number between 1 and {len(results)}.")
+        return
+    add_to_favorites(results[number - 1])
+
+# View my favorite resources
+def show_favorites():
+    """ Show saved favorite resources, and let the user remove one"""
+    print("\n=== My Favorite Resources ===")
+    if not FAVORITES:
+        print("You have no favorite resources yet. Save some from browse, category, or search screen.")
+        return
+    
+    for number, resource in enumerate(FAVORITES, start=1):
+        show_resource(resource, number)
+
+    choice = input("\nEnter a number to remove a favorite, or press Enter to go back: ").strip()
+    if choice == "":
+        return
+    if not choice.isdigit():
+        print("Please enter a number from the list.")
+        return
+    number = int(choice)
+    if number < 1 or number > len(FAVORITES):
+        print(f"Please enter a number between 1 and {len(FAVORITES)}.")
+        return
+    removed = FAVORITES.pop(number - 1)
+    print(f"Removed '{removed['name']}' from your favorites.")
 
 # Main function
 def main():
@@ -131,7 +195,7 @@ def main():
         elif choice == "4":
             search_resources_by_keyword()
         elif choice == "5":
-            print("My favorites resources coming soon.")
+            show_favorites()
         elif choice == "6":
             print("Exiting Campus Compass...")
             running = False
