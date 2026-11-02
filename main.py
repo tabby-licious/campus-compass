@@ -88,6 +88,33 @@ def find_resources_by_category():
     if count == 0:
         print(f"No resources found in the {selected} category.")
 
+# Search resources by keyword
+def search_resources_by_keyword():
+    """ Search names, categories, tags, and quotes for a word."""
+    print("\n=== Search Resources by Keyword ===")
+    keyword = input("Enter a word to search for: ").strip().lower()
+
+    if keyword == "":
+        print("Please enter a word to search for.")
+        return
+
+    count = 0
+    for resource in resources:
+        tags_text = " ".join(resource["tags"])
+        search_text = (
+            resource["name"] + " "
+            + resource["category"] + " "
+            + tags_text.lower() + " "
+            + resource["notes"]
+        ).lower()
+
+        if keyword in search_text:
+            count += 1
+            show_resource(resource, count)
+    
+    if count == 0:
+        print(f"No resources found containing the word '{keyword}'.")
+
 # Main function
 def main():
     print("Welcome to Campus Compass!")
@@ -102,7 +129,7 @@ def main():
         elif choice == "3":
             find_resources_by_category()
         elif choice == "4":
-            print("Search resources by keyword coming soon.")
+            search_resources_by_keyword()
         elif choice == "5":
             print("My favorites resources coming soon.")
         elif choice == "6":
