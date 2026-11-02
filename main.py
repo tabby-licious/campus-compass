@@ -60,19 +60,34 @@ def show_emergency_help():
         
 # Find resources by category
 def find_resources_by_category():
+    """ Let the user pick a category and show its resources."""
     print("\n=== Find Resources by Category ===")
-    categories = [
-        "Academic & Study Resources",
-        "Food & Dining",
-        "Health & Wellness",
-        "Career & Financial Support",
-        "Technology & Student Help",
-        "Recreation & Campus Life",
-        "Safety & Emergency Services",
-    ]
-    for number, category in enumerate(categories, start=1):
+    for number, category in enumerate(CATEGORIES, start=1):
         print(f"{number}. {category}")
+
+    choice = input("Choose a category: ").strip()
+
+    if not choice.isdigit():
+        print("Please enter a number from the list.")
+        return
     
+    choice = int(choice)
+    if choice < 1 or choice > len(CATEGORIES):
+        print(f"Please enter a  number between 1 and {len(CATEGORIES)}.")
+        return
+
+    selected = CATEGORIES[choice - 1]
+    print(f"\n=== Resources in the {selected} category ===")
+
+    count = 0
+    for resource in resources:
+        if resource["category"] == selected:
+            count += 1
+            show_resource(resource, count)
+
+    if count == 0:
+        print(f"No resources found in the {selected} category.")
+
 # Main function
 def main():
     print("Welcome to Campus Compass!")
@@ -85,7 +100,7 @@ def main():
         elif choice == "2":
             browse_all_resources()
         elif choice == "3":
-            print("Find resources by category coming soon.")
+            find_resources_by_category()
         elif choice == "4":
             print("Search resources by keyword coming soon.")
         elif choice == "5":
