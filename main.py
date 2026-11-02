@@ -1,3 +1,8 @@
+# Campus Compass
+# A text-based directory of Angelo State University resources.
+# Features: emergency help, browse, search by category or keyword, favorites.
+# Author: Tabitha Ondieki    Course: CS 1314
+
 from resources import resources
 
 SAFETY_CATEGORY = "Safety & Emergency Services"
